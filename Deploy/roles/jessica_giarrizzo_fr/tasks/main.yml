@@ -1,0 +1,38 @@
+## Requirements
+
+- name: Nginx root web folders creation
+  file:
+    path: "/home/web/giarrizzo.fr/jessica/home/"
+    owner: bruno
+    group: www-data
+    state: directory
+    mode: 0755
+
+- name: Nginx log folders creation
+  file:
+    path: "/var/log/nginx/jessica.giarrizzo.fr/"
+    owner: www-data
+    group: adm
+    state: directory
+    mode: 0755
+
+## vHost Config
+
+- name: Site Install = Jessica.Giarrizzo.fr
+  template:
+    src: jessica.giarrizzo.fr.conf
+    dest: /etc/nginx/sites-enabled/003-jessica.giarrizzo.fr.conf
+  notify: restart nginx
+
+## Git Pull
+
+- name: Git pull - jessica.giarrizzo.fr
+  git:
+    repo: git@gitlab.com:bgiarrizzo/jessica.giarrizzo.fr.git
+    dest: /home/web/giarrizzo.fr/jessica/home/
+    update: yes
+
+- name: Remove Deploy Files
+  file:
+    path: "/home/web/giarrizzo.fr/home/Deploy"
+    state: absent

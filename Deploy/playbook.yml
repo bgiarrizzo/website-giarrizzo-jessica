@@ -1,0 +1,4 @@
+- hosts: all
+  remote_user: root
+  roles:
+    - jessica_giarrizzo_fr
